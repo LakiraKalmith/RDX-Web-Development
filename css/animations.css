@@ -1,0 +1,99 @@
+/* loading animation */
+.loader {
+    transition: opacity 0.5s ease;
+}
+
+.loader.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.loader-logo {
+    height: 140px;
+    font-size: 4rem;
+    color: var(--primary);
+    filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.5));
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.2); }
+}
+
+/* idk fading elemnt for feature */
+
+.product1 h4 {
+    opacity: 0;
+    animation: fadeIn 2s ease forwards;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+/* login modal */
+
+.login.active .wrapper {
+  animation: openLogin 0.3s ease forwards ;
+}
+
+@keyframes openLogin {
+  from { 
+    opacity: 0; 
+    transform: scale(0.1);
+}
+  to { 
+    opacity: 1; 
+    transform: scale(1);
+}
+}
+
+.login.active {
+  animation: openLoginBlur 0.4s ease;
+}
+@keyframes openLoginBlur{
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(8px);
+  }
+}
+
+.login.closing {
+  animation: closeLoginBlur 0.4s ease;
+}
+@keyframes closeLoginBlur{
+  from {
+    opacity: 1;
+    backdrop-filter: blur(8px);
+  }
+  to {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+}
+
+
+
+
+
+.login.closing .wrapper {
+  animation: closeLogin 0.3s ease forwards ;
+}
+
+@keyframes closeLogin {
+  from { 
+    opacity: 1; 
+    transform: scale(1);
+}
+  to { 
+    opacity: 0; 
+    transform: scale(0.1);
+}
+}
+
+
