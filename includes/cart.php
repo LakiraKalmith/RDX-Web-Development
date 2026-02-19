@@ -28,7 +28,7 @@
             <span class="total-label">Total</span>
             <span class="total-value" id="totalValue">$0</span>
         </div>
-            <button class="checkout-btn">Checkout</button>
+            <button class="checkout-btn" onclick="window.location.href='/RDX/checkout-page.php'">Checkout</button>
             <button class="view-cart-btn" onclick="closeCart()">Continue Shopping</button>
         </div>
     </div>
