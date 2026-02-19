@@ -9,11 +9,17 @@ function loadCart() {
     const savedCart = localStorage.getItem('rdx_cart');
     if (savedCart) {
         cart = JSON.parse(savedCart);
-        console.log('Cart loaded from LocalStorage:', cart);
         updateCart();
     }
 }
 
+function syncDB(action, product_id, quantity) {
+    fetch('/RDX/includes/cart_api.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action, product_id, quantity })
+    });
+}
 function openCart() {
     document.getElementById('cartOverlay').classList.add('active');
     document.getElementById('sideCart').classList.add('active');
@@ -26,30 +32,26 @@ function closeCart() {
     document.body.classList.remove('cart-open');
 }
 
-function addToCart(name, price, image) {
-    console.log('Adding to cart:', name, price, image); // DEBUG
+function addToCart(name, price, image, product_id) {
     
     // Check if item already exists (same name AND price)
-    const existingItem = cart.find(item => item.name === name && item.price === price);
+    const existing = cart.find(item => item.product_id == product_id);
     
-    if (existingItem) {
-        // Item exists, just increase quantity
-        existingItem.quantity++;
-        console.log('Item already in cart, increased quantity to:', existingItem.quantity);
+    if (existing) {
+        existing.quantity++;
+        syncDB('update', product_id, existing.quantity);
     } else {
-        // New item, add to cart
-        cart.push({
-            id: Date.now() + Math.random(),
-            product_id: productId,  
-            name: name,
-            price: price,
-            image: image,
-            quantity: 1
+        cart.push({ 
+            id: Date.now(), 
+            product_id, 
+            name, 
+            price, 
+            image, 
+            quantity: 1 
         });
-        console.log('New item added to cart');
+        syncDB('add', product_id, 1);
     }
-    
-    console.log('Cart now has:', cart); // DEBUG
+
     
     saveCart();
     updateCart();
@@ -60,15 +62,28 @@ function updateQuantity(id, change) {
     const item = cart.find(item => item.id === id);
     if (item) {
         item.quantity = Math.max(1, item.quantity + change);
+        syncDB('update', item.product_id, item.quantity);
         saveCart();
         updateCart();
     }
 }
 
 function removeFromCart(id) {
+    const item = cart.find(item => item.id === id);
+    if (item) syncDB('remove', item.product_id, 0);
     cart = cart.filter(item => item.id !== id);
     saveCart();
     updateCart();
+}
+
+function goToCheckout() {
+    if (cart.length === 0) return;
+    // isLoggedIn is set by PHP in cart.php
+    if (!isLoggedIn) {
+        window.location.href = '/RDX/login.php?redirect=checkout-page.php';
+        return;
+    }
+    window.location.href = '/RDX/checkout-page.php';
 }
 
 function updateCart() {

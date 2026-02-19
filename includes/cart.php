@@ -33,3 +33,6 @@
         </div>
     </div>
 
+<script>
+        const isLoggedIn = <?= isset($_SESSION['user_id']) ? 'true' : 'false' ?>;
+</script>
