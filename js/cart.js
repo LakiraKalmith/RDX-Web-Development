@@ -42,7 +42,6 @@ function addToCart(name, price, image, product_id) {
         syncDB('update', product_id, existing.quantity);
     } else {
         cart.push({ 
-            id: Date.now(), 
             product_id, 
             name, 
             price, 
@@ -52,14 +51,13 @@ function addToCart(name, price, image, product_id) {
         syncDB('add', product_id, 1);
     }
 
-    
     saveCart();
     updateCart();
     openCart();
 }
 
-function updateQuantity(id, change) {
-    const item = cart.find(item => item.id === id);
+function updateQuantity(product_id, change) {
+    const item = cart.find(item => item.product_id == product_id);
     if (item) {
         item.quantity = Math.max(1, item.quantity + change);
         syncDB('update', item.product_id, item.quantity);
@@ -68,10 +66,10 @@ function updateQuantity(id, change) {
     }
 }
 
-function removeFromCart(id) {
-    const item = cart.find(item => item.id === id);
+function removeFromCart(product_id) {
+    const item = cart.find(item => item.product_id == product_id);
     if (item) syncDB('remove', item.product_id, 0);
-    cart = cart.filter(item => item.id !== id);
+    cart = cart.filter(item => item.product_id != product_id);
     saveCart();
     updateCart();
 }
@@ -92,9 +90,9 @@ function updateCart() {
     const cartBadge = document.getElementById('cartBadge');
     const itemCount = document.getElementById('itemCount');
 
-    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-    cartBadge.textContent = totalItems;
-    itemCount.textContent = totalItems;
+    const totalItems = cart.reduce((sum, item) => sum + Number(item.quantity), 0);
+    cartBadge.textContent = Number(totalItems);
+    itemCount.textContent = Number(totalItems);
 
     if (cart.length === 0) {
         // Show empty state
@@ -121,11 +119,11 @@ function updateCart() {
                     <div class="cart-item-price">$${item.price}</div>
                     <div class="cart-item-controls">
                         <div class="quantity-controls">
-                            <button class="qty-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
+                            <button class="qty-btn" onclick="updateQuantity(${item.product_id}, -1)">-</button>
                             <span class="qty-display">${item.quantity}</span>
-                            <button class="qty-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+                            <button class="qty-btn" onclick="updateQuantity(${item.product_id}, 1)">+</button>
                         </div>
-                        <button class="remove-item" onclick="removeFromCart(${item.id})">
+                        <button class="remove-item" onclick="removeFromCart(${item.product_id})">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
@@ -134,7 +132,7 @@ function updateCart() {
         `).join('');
     }
 
-    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const subtotal = cart.reduce((sum, item) => sum + (Number(item.price) * Number(item.quantity)), 0);
     document.getElementById('subtotalValue').textContent = `$${subtotal.toFixed(2)}`;
     document.getElementById('totalValue').textContent = `$${subtotal.toFixed(2)}`;
 }

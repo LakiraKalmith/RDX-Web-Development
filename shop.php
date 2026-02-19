@@ -1,6 +1,7 @@
 <?php 
 require_once __DIR__ . '/includes/init.php';
 include __DIR__ . '/includes/header.php';
+include __DIR__ . '/includes/load_cart.php'; 
 include 'newsletter.php'; 
 
 $sql = "SELECT * FROM products WHERE status = 'active'";
