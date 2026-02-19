@@ -40,6 +40,7 @@ function addToCart(name, price, image) {
         // New item, add to cart
         cart.push({
             id: Date.now() + Math.random(),
+            product_id: productId,  
             name: name,
             price: price,
             image: image,

@@ -42,7 +42,7 @@ $result = $conn->query($sql);
                 </div>
                 <div class="add-to-cart-container">
                     <input type="button" class="add-to-cart" value="ADD TO CART"
-                        onclick="addToCart('<?= $row['name']; ?>', <?= $row['price']; ?>, '/RDX/images/products/<?= $row['image']; ?>')">
+                        onclick="addToCart('<?= $row['name']; ?>', <?= $row['price']; ?>, '/RDX/images/products/<?= $row['image']; ?>', <?= $row['id']; ?>)">
                 </div>
             </div>
             <?php }; ?>
