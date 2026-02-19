@@ -20,6 +20,7 @@ $section = $_GET['section'] ?? 'profile';
 
 include __DIR__ . '/includes/header.php';
 ?>
+
 <body>
 
 <!-- nav bar -->
@@ -143,8 +144,7 @@ include __DIR__ . '/includes/header.php';
                 </div>
             </form>
         </div>
-                <!-- orderse -->
-        <div class="content-section <?= $section === 'orders' ? 'active' : '' ?>" id="orders">
+                      <div class="content-section <?= $section === 'orders' ? 'active' : '' ?>" id="orders">
             <div class="content-header">
                 <div>
                     <h2>My Orders</h2>
@@ -152,66 +152,95 @@ include __DIR__ . '/includes/header.php';
                 </div>
             </div>
 
+            <?php
+            $orders = mysqli_query($conn, "SELECT * FROM orders WHERE user_id = '$user_id' ORDER BY created_at DESC");
+            ?>
+
             <div class="orders-list">
+                <?php if (mysqli_num_rows($orders) == 0): ?>
+                    <p style="color:#666; font-size:13px; letter-spacing:1px;">No orders yet.</p>
+
+                <?php else: while ($order = mysqli_fetch_assoc($orders)): ?>
                 <div class="order-card">
                     <div class="order-header">
                         <div class="order-id">
-                            <h4>Order #RDX1001</h4>
-                            <p>Placed on January 15, 2025</p>
+                            <h4>Order #RDX<?= $order['id'] ?></h4>
+                            <p>Placed on <?= date('F j, Y', strtotime($order['created_at'])) ?></p>
                         </div>
-                        <span class="status-badge delivered">Delivered</span>
+                        <span class="status-badge <?= $order['status'] ?>">
+                            <?= ucfirst($order['status']) ?>
+                        </span>
                     </div>
+
+                    <?php
+                    $items = mysqli_query($conn, "SELECT * FROM order_items WHERE order_id = '{$order['id']}'");
+                    ?>
+
                     <div class="order-items">
+                        <?php while ($item = mysqli_fetch_assoc($items)): ?>
                         <div class="order-item">
-                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%232a2a2a' width='80' height='80'/%3E%3C/svg%3E" alt="Product">
                             <div class="item-details">
-                                <h5>RDX Signature Shirt</h5>
-                                <p>Size: M | Qty: 1</p>
-                                <p class="item-price">$150.00</p>
+                                <h5><?= $item['name'] ?></h5>
+                                <p>Qty: <?= $item['quantity'] ?></p>
+                                <p class="item-price">$<?= number_format($item['price'] * $item['quantity'], 2) ?></p>
                             </div>
                         </div>
+                        <?php endwhile; ?>
                     </div>
+
                     <div class="order-footer">
                         <div class="order-total">
-                            <strong>Total:</strong> $150.00
+                            <strong>Total:</strong> $<?= number_format($order['total'], 2) ?>
                         </div>
                         <div class="order-actions">
-                            <button class="btn-secondary">Track Order</button>
-                            <button class="btn-primary">View Details</button>
+                            <button class="btn-secondary" onclick="openTrackModal('<?= $order['status'] ?>', '<?= date('F j, Y', strtotime($order['created_at'])) ?>')">
+                                Track Order
+                            </button>
+                            <button class="btn-primary" onclick="openDetailsModal(<?= $order['id'] ?>)">
+                                View Details
+                            </button>
                         </div>
+                    </div>
+                </div>
+                <?php endwhile; endif; ?>
+            </div>
+        </div>
+        
+                <!-- ── Track Order Modal ── -->
+        <div id="trackModal" class="modal-overlay">
+            <div class="modal-box">
+                <button class="modal-close" onclick="closeModals()">×</button>
+                <div class="modal-title">Track Order</div>
+
+                <div class="track-steps">
+                    <div class="track-step" id="step-processing">
+                        <div class="track-step-icon"><i class="fas fa-box"></i></div>
+                        <p>Processing</p>
+                    </div>
+                    <div class="track-line"></div>
+                    <div class="track-step" id="step-shipping">
+                        <div class="track-step-icon"><i class="fas fa-truck"></i></div>
+                        <p>Shipping</p>
+                    </div>
+                    <div class="track-line"></div>
+                    <div class="track-step" id="step-delivered">
+                        <div class="track-step-icon"><i class="fas fa-check"></i></div>
+                        <p>Delivered</p>
                     </div>
                 </div>
 
-                <div class="order-card">
-                    <div class="order-header">
-                        <div class="order-id">
-                            <h4>Order #RDX1002</h4>
-                            <p>Placed on January 20, 2025</p>
-                        </div>
-                        <span class="status-badge shipping">Shipping</span>
-                    </div>
-                    <div class="order-items">
-                        <div class="order-item">
-                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%232a2a2a' width='80' height='80'/%3E%3C/svg%3E" alt="Product">
-                            <div class="item-details">
-                                <h5>Premium Leather Jacket</h5>
-                                <p>Size: L | Qty: 1</p>
-                                <p class="item-price">$280.00</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="order-footer">
-                        <div class="order-total">
-                            <strong>Total:</strong> $280.00
-                        </div>
-                        <div class="order-actions">
-                            <button class="btn-secondary">Track Order</button>
-                            <button class="btn-primary">View Details</button>
-                        </div>
-                    </div>
-                </div>
+                <p id="trackDate" class="modal-meta"></p>
             </div>
         </div>
+        <!-- ── View Details Modal ── -->
+        <div id="detailsModal" class="modal-overlay">
+            <div class="modal-box">
+                <button class="modal-close" onclick="closeModals()">×</button>
+                <div class="modal-title">Order Details</div>
+                <div id="detailsContent">Loading...</div>
+            </div>
+        </div>
+
 
                 <!-- Addresses -->
         <div class="content-section <?= $section === 'addresses' ? 'active' : '' ?>" id="addresses">
@@ -322,6 +351,47 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+function openTrackModal(status, date) {
+    document.getElementById('trackModal').style.display = 'flex';
+
+    // Reset all steps
+    ['processing', 'shipping', 'delivered'].forEach(s => {
+        document.getElementById('step-' + s).classList.remove('active');
+    });
+
+    // Highlight steps up to current status
+    const steps = ['processing', 'shipping', 'delivered'];
+    const currentIndex = steps.indexOf(status);
+    for (let i = 0; i <= currentIndex; i++) {
+        document.getElementById('step-' + steps[i]).classList.add('active');
+    }
+
+    document.getElementById('trackDate').textContent = 'Order placed: ' + date;
+}
+
+function openDetailsModal(orderId) {
+    document.getElementById('detailsModal').style.display = 'flex';
+    document.getElementById('detailsContent').innerHTML = 'Loading...';
+
+    fetch('/RDX/includes/get_order.php?order_id=' + orderId)
+        .then(res => res.text())
+        .then(html => {
+            document.getElementById('detailsContent').innerHTML = html;
+        });
+}
+
+function closeModals() {
+    document.getElementById('trackModal').style.display = 'none';
+    document.getElementById('detailsModal').style.display = 'none';
+}
+
+// Close when clicking outside the box
+document.getElementById('trackModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModals();
+});
+document.getElementById('detailsModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModals();
+});
 </script>
 
 <!-- footer -->

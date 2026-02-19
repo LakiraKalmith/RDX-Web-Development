@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 08, 2026 at 07:38 PM
+-- Generation Time: Feb 19, 2026 at 04:19 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -181,7 +181,9 @@ INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `passwor
 (19, 'Lakira', 'Gooneratne', 'jeffrey@gmail.com', NULL, '$2y$10$Cl54QqYj1b9muaERrS3Zh.MhcJgGpaBgOR16xPPGONJ6JCd/RXw2K', 'customer', '2026-02-06 16:25:07', '2026-02-06 16:25:07'),
 (20, 'donald', 'trump', 'trump@gmail.com', NULL, '$2y$10$MtHfifkm.SHpiMPxTopXX.eyD62I4cAqJ/ccS39d4IWpELGrQpqQK', 'customer', '2026-02-06 16:56:24', '2026-02-06 16:56:24'),
 (21, 'Pablo', 'asfasf', 'helloworld@gmail.com', NULL, '$2y$10$uF8/YWMzkjuhSjbjBKBfL.2wHgD.yoDDeC1SCxpWZXupWqZ.TbP2u', 'customer', '2026-02-06 17:17:19', '2026-02-06 17:17:19'),
-(22, 'Shin', 'Bon', 'chigga@gmail.com', NULL, '$2y$10$8Zn9nZoyIJKBfrree7MOj.6E/I8OJ9edWb207GN/9ci.i.V28.2nW', 'customer', '2026-02-06 17:20:38', '2026-02-06 17:20:38');
+(22, 'Shin', 'Bon', 'chigga@gmail.com', NULL, '$2y$10$8Zn9nZoyIJKBfrree7MOj.6E/I8OJ9edWb207GN/9ci.i.V28.2nW', 'customer', '2026-02-06 17:20:38', '2026-02-06 17:20:38'),
+(23, 'Jeffrey', 'Epstein', 'hellothere@gmail.com', '', '$2y$10$A/Zo382Jn5AwA/zbMLqCMOtJfwU.jkX.gGmSJV6A7ttPR5XZbtxUK', 'customer', '2026-02-19 07:26:05', '2026-02-19 08:27:25'),
+(24, 'Nethra', 'Sarangi', 'nethra@gmail.com', NULL, '$2y$10$gUBZMKO897BHzQF2nYFO1ubrIdpq.6xoF6BI/X35TGrkJdPuYHnD.', 'customer', '2026-02-19 10:49:46', '2026-02-19 10:49:46');
 
 --
 -- Indexes for dumped tables
@@ -253,7 +255,7 @@ ALTER TABLE `product_sizes`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- Constraints for dumped tables

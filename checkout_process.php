@@ -55,6 +55,20 @@ if ($address_mode == 'saved') {
         'zip_code'      => $_POST['zip_code'],
         'country'       => $_POST['country'],
     ];
+
+    $full_name     = $_POST['first_name'] . ' ' . $_POST['last_name'];
+    $phone         = $_POST['phone'];
+    $address_line1 = $_POST['address_line1'];
+    $address_line2 = $_POST['address_line2'] ?? '';
+    $city          = $_POST['city'];
+    $state         = $_POST['state'];
+    $zip_code      = $_POST['zip_code'];
+    $country       = $_POST['country'];
+
+    mysqli_query($conn, "
+        INSERT INTO addresses (user_id, address_type, full_name, phone, address_line1, address_line2, city, state, zip_code, country, is_default)
+        VALUES ('$user_id', 'home', '$full_name', '$phone', '$address_line1', '$address_line2', '$city', '$state', '$zip_code', '$country', 0)
+    ");
 }
 
 $checkout_session = \Stripe\Checkout\Session::create([
