@@ -1153,3 +1153,67 @@ tbody tr:last-child td {
 [data-theme="dark"] .size-item:hover {
     background: var(--bg-hover);
 }
+
+/* ── orders table ── */
+.filter-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.filter-tab {
+    padding: 8px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    background: var(--bg-secondary);
+    border-radius: 10px;
+    transition: all .2s;
+}
+
+.filter-tab:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-light);
+}
+
+.filter-tab.active            { border-color: var(--accent);   color: var(--accent);   background: var(--accent-light); }
+.filter-tab.active.processing { border-color: var(--warning);  color: var(--warning);  background: var(--warning-light); }
+.filter-tab.active.shipping   { border-color: var(--info);     color: var(--info);     background: var(--info-light); }
+.filter-tab.active.delivered  { border-color: var(--success);  color: var(--success);  background: var(--success-light); }
+
+/* Table cells */
+.order-id      { color: var(--accent); font-weight: 600; }
+.order-address { color: var(--text-secondary); font-size: 13px; }
+.order-date    { color: var(--text-secondary); }
+
+.no-orders {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+/* Action buttons */
+.action-btns {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.status-select {
+    background: var(--bg-hover);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 8px 12px;
+    font-size: 13px;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    outline: none;
+    border-radius: 8px;
+    transition: border-color .2s;
+}
+
+.status-select:hover { border-color: var(--accent); }

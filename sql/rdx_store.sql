@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 19, 2026 at 04:19 PM
+-- Generation Time: Feb 20, 2026 at 08:33 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -98,12 +98,12 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `price`, `description`, `image`, `category_id`, `featured`, `status`, `created_at`) VALUES
-(1, 'Black T-Shirt', 244.00, '100% cottons', '1769865825_black-tee.jpg', 16, 1, 'inactive', '2026-01-27 15:52:22'),
-(2, 'White Hoodie', 999.00, 'Hoodies', 'white-hoodie.jpg', 10, 1, 'active', '2026-01-27 15:52:22'),
+(1, 'Black T-Shirt', 244.00, '100% cotton', '1769865825_black-tee.jpg', 16, 1, 'active', '2026-01-27 15:52:22'),
+(2, 'White Hoodie', 999.00, 'Hoodies', 'white-hoodie.jpg', 10, 1, 'inactive', '2026-01-27 15:52:22'),
 (3, 'Blue Jeans', 55.00, 'Slim fit blue jeans', 'blue-jeans.jpg', 16, 1, 'active', '2026-01-27 15:52:22'),
 (4, 'Red Cap', 15.00, 'Red cap with logo', 'red-cap.jpg', 1, 0, 'active', '2026-01-27 15:52:22'),
 (282, 'HOODIE ', 266.00, 'asfa', '1769862987_sample.png', 1, 0, 'active', '2026-01-29 19:25:22'),
-(288, 'Shirt', 1212.00, 'ss', '1770561277_Black and White Minimalist Professional Initial Logo.png', 16, 1, 'inactive', '2026-02-08 14:34:37'),
+(288, 'Shirt', 1212.00, 'ss', '1770561277_Black and White Minimalist Professional Initial Logo.png', 16, 1, 'active', '2026-02-08 14:34:37'),
 (290, 'Red Cap', 111.00, 'Cotton \r\nleather', '1770570861_download (1).jpeg', 7, 0, 'active', '2026-02-08 17:14:21');
 
 -- --------------------------------------------------------
@@ -124,7 +124,6 @@ CREATE TABLE `product_sizes` (
 --
 
 INSERT INTO `product_sizes` (`id`, `product_id`, `size`, `stock`) VALUES
-(119, 2, 'S', 24),
 (123, 3, 'S', 19),
 (124, 3, 'M', 6),
 (125, 3, 'L', 5),
@@ -134,14 +133,15 @@ INSERT INTO `product_sizes` (`id`, `product_id`, `size`, `stock`) VALUES
 (141, 4, 'S', 10),
 (142, 4, 'M', 12),
 (143, 4, 'L', 10),
-(146, 288, 'S', 9),
-(147, 288, 'M', 9),
 (155, 290, 'S', 11),
 (156, 290, 'M', 25),
 (157, 290, 'L', 5),
-(158, 1, 'S', 5),
-(159, 1, 'M', 2),
-(160, 1, 'L', 24);
+(161, 288, 'S', 9),
+(162, 288, 'M', 9),
+(163, 2, 'S', 24),
+(172, 1, 'S', 5),
+(173, 1, 'M', 2),
+(174, 1, 'L', 24);
 
 -- --------------------------------------------------------
 
@@ -182,8 +182,8 @@ INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `passwor
 (20, 'donald', 'trump', 'trump@gmail.com', NULL, '$2y$10$MtHfifkm.SHpiMPxTopXX.eyD62I4cAqJ/ccS39d4IWpELGrQpqQK', 'customer', '2026-02-06 16:56:24', '2026-02-06 16:56:24'),
 (21, 'Pablo', 'asfasf', 'helloworld@gmail.com', NULL, '$2y$10$uF8/YWMzkjuhSjbjBKBfL.2wHgD.yoDDeC1SCxpWZXupWqZ.TbP2u', 'customer', '2026-02-06 17:17:19', '2026-02-06 17:17:19'),
 (22, 'Shin', 'Bon', 'chigga@gmail.com', NULL, '$2y$10$8Zn9nZoyIJKBfrree7MOj.6E/I8OJ9edWb207GN/9ci.i.V28.2nW', 'customer', '2026-02-06 17:20:38', '2026-02-06 17:20:38'),
-(23, 'Jeffrey', 'Epstein', 'hellothere@gmail.com', '', '$2y$10$A/Zo382Jn5AwA/zbMLqCMOtJfwU.jkX.gGmSJV6A7ttPR5XZbtxUK', 'customer', '2026-02-19 07:26:05', '2026-02-19 08:27:25'),
-(24, 'Nethra', 'Sarangi', 'nethra@gmail.com', NULL, '$2y$10$gUBZMKO897BHzQF2nYFO1ubrIdpq.6xoF6BI/X35TGrkJdPuYHnD.', 'customer', '2026-02-19 10:49:46', '2026-02-19 10:49:46');
+(23, 'Jeffrey', 'Epstein', 'hellothere@gmail.com', '', '$2y$10$A/Zo382Jn5AwA/zbMLqCMOtJfwU.jkX.gGmSJV6A7ttPR5XZbtxUK', 'admin', '2026-02-19 07:26:05', '2026-02-19 19:13:03'),
+(25, 'Jordan', 'Belfort', 'johndoe@gmail.com', '', '$2y$10$gYvJJ/i3G8lkacl/jogOxOTulfAwDFUNQXE7tkiOhgGLY71rXtA7y', 'customer', '2026-02-20 07:22:18', '2026-02-20 07:29:59');
 
 --
 -- Indexes for dumped tables
@@ -231,7 +231,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `newsletter_subscribers`
@@ -243,19 +243,19 @@ ALTER TABLE `newsletter_subscribers`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=291;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=292;
 
 --
 -- AUTO_INCREMENT for table `product_sizes`
 --
 ALTER TABLE `product_sizes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=161;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=175;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- Constraints for dumped tables
