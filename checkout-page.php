@@ -271,20 +271,20 @@ if (empty($cart_rows)) {
                     <div class="form-row">
                         <div class="form-group">
                             <label>First Name</label>
-                            <input type="text" name="first_name" placeholder="John">
+                            <input type="text" name="first_name" placeholder="John" required>
                         </div>
                         <div class="form-group">
                             <label>Last Name</label>
-                            <input type="text" name="last_name" placeholder="Doe">
+                            <input type="text" name="last_name" placeholder="Doe" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Phone</label>
-                        <input type="tel" name="phone" placeholder="+1 555 000 0000">
+                        <input type="tel" name="phone" placeholder="+1 555 000 0000" required>
                     </div>
                     <div class="form-group">
                         <label>Address Line 1</label>
-                        <input type="text" name="address_line1" placeholder="123 Main St">
+                        <input type="text" name="address_line1" placeholder="123 Main St" required>
                     </div>
                     <div class="form-group">
                         <label>Address Line 2 (optional)</label>
@@ -293,21 +293,21 @@ if (empty($cart_rows)) {
                     <div class="form-row">
                         <div class="form-group">
                             <label>City</label>
-                            <input type="text" name="city" placeholder="New York">
+                            <input type="text" name="city" placeholder="New York" required>
                         </div>
                         <div class="form-group">
                             <label>State</label>
-                            <input type="text" name="state" placeholder="NY">
+                            <input type="text" name="state" placeholder="NY" required>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
                             <label>ZIP Code</label>
-                            <input type="text" name="zip_code" placeholder="10001">
+                            <input type="text" name="zip_code" placeholder="10001" required>
                         </div>
                         <div class="form-group">
                             <label>Country</label>
-                            <select name="country">
+                            <select name="country" required>
                                 <option>United States</option>
                                 <option>Canada</option>
                                 <option>United Kingdom</option>
