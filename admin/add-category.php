@@ -16,6 +16,7 @@ require_once __DIR__ . '/../includes/admin_header.php';
         $result = mysqli_query($conn,$sql);
 
         if ($result) {
+            $_SESSION['success'] = "Category added successfully";
             header("Location: categories.php");
             exit;
 
@@ -25,7 +26,6 @@ require_once __DIR__ . '/../includes/admin_header.php';
     }
     ?>
 
-<body>
     <!-- this is for the navbar -->
     <?php require_once __DIR__ . '/../includes/admin_nav.php' ?>  
     <div class="main-content">

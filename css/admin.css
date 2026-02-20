@@ -956,27 +956,38 @@ tbody tr:last-child td {
 /* Toast */
 
 .toast {
-    visibility: hidden ;     
-    min-width: 250px;
-    background-color: #4BB543; 
-    color: white;
-    text-align: center;
-    border-radius: 8px;
-    padding: 16px;
     position: fixed;
-    top: 20px;             
-    right: 20px;           
-    z-index: 9999;          
-    box-shadow: 0 4px 8px rgba(15, 12, 12, 0.2);
-    font-family: sans-serif;
-}
-
-.toast.error {
-    background-color: #dc3545 !important;
+    top: 24px;
+    left: calc(280px + (100vw - 280px) / 2);
+    transform: translateX(-50%) translateY(-120px);
+    opacity: 0;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Outfit', sans-serif;
+    z-index: 99999;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease 0.5s;
 }
 
 .toast.success {
-    background-color: #4BB543; 
+    background: var(--success);
+    color: white;
+}
+
+.toast.error {
+    background: var(--error);
+    color: white;
+}
+
+.toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
 }
 
 /* edit btn */
@@ -1217,3 +1228,82 @@ tbody tr:last-child td {
 }
 
 .status-select:hover { border-color: var(--accent); }
+
+/* delet emodal overlay */
+/* ── Delete Modal ── */
+.delete-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.6);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+
+.delete-modal-box {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    padding: 40px;
+    width: 420px;
+    max-width: 90vw;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: var(--shadow-xl);
+}
+
+.delete-modal-icon {
+    width: 64px;
+    height: 64px;
+    background: var(--error-light);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.delete-modal-icon i {
+    font-size: 24px;
+    color: var(--error);
+}
+
+.delete-modal-title {
+    font-family: 'Sora', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+}
+
+.delete-modal-message {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin-bottom: 32px;
+    line-height: 1.6;
+}
+
+.delete-modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.btn-delete-confirm {
+    background: var(--error);
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.btn-delete-confirm:hover {
+    opacity: .85;
+    transform: translateY(-2px)
+}

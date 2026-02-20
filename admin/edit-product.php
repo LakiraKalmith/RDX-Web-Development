@@ -3,104 +3,104 @@ require_once __DIR__ . '/../includes/init.php';
 require_once __DIR__ . '/../includes/admin_header.php';
 require_once __DIR__ . '/../includes/admin_only.php';
 ?>
-    <?php 
-        $id = (int)$_GET['id'];
-        $query = "SELECT * FROM products WHERE id = $id";
-        $result = mysqli_query($conn,$query);
+<?php 
+    $id = (int)$_GET['id'];
+    $query = "SELECT * FROM products WHERE id = $id";
+    $result = mysqli_query($conn,$query);
 
-        $sizeQuery = "SELECT size, stock FROM product_sizes WHERE product_id = $id";
-        $resultSize = mysqli_query($conn,$sizeQuery);
+    $sizeQuery = "SELECT size, stock FROM product_sizes WHERE product_id = $id";
+    $resultSize = mysqli_query($conn,$sizeQuery);
 
-        $categoriesQuery = "SELECT id, name FROM categories";
-        $categoriesResult = mysqli_query($conn, $categoriesQuery); 
-
-
-        $product = mysqli_fetch_assoc($result);
-
-        $sizes = [];
-
-        if(!$product) {
-            header("Location: products.php");
-            exit;
-        }
-
-        while ($row = mysqli_fetch_assoc($resultSize)) {
-            $sizes[$row['size']] = $row['stock'];
-        }
-
-        if(isset($_POST['update'])) {
-            $name = $_POST['name'];
-            $price = $_POST['price'];
-            $description = $_POST['description'];
-
-            $category_id = $_POST['category_id'];
-            $featured = $_POST['featured'];
-            $status = $_POST['status'];
-
-            $tmpName   = $_FILES['product_image']['tmp_name'];
-            $newImage = $_FILES['product_image']['name'];
-            $oldImage = $product['image'];
-
-            if ($newImage != "")
-            {
-                $imageName = time() . '_' . $newImage;
-                $uploadPath = "../images/products/" . $imageName;
-
-                move_uploaded_file($tmpName, $uploadPath);
-                unlink("../images/products/" . $oldImage);
-                
-            } 
-            else
-            {  
-                $imageName = $oldImage;
-            }
+    $categoriesQuery = "SELECT id, name FROM categories";
+    $categoriesResult = mysqli_query($conn, $categoriesQuery); 
 
 
-            $updateQuery = " UPDATE products 
-            SET name = '$name', price = '$price', description = '$description', category_id = '$category_id',
-            featured = '$featured', status = '$status', image = '$imageName'
-            WHERE id = $id ";
+    $product = mysqli_fetch_assoc($result);
 
-            $updateResult = mysqli_query($conn,$updateQuery);
+    $sizes = [];
 
+    if(!$product) {
+        header("Location: products.php");
+        exit;
+    }
+
+    while ($row = mysqli_fetch_assoc($resultSize)) {
+        $sizes[$row['size']] = $row['stock'];
+    }
+
+    if(isset($_POST['update'])) {
+        $name = $_POST['name'];
+        $price = $_POST['price'];
+        $description = $_POST['description'];
+
+        $category_id = $_POST['category_id'];
+        $featured = $_POST['featured'];
+        $status = $_POST['status'];
+
+        $tmpName   = $_FILES['product_image']['tmp_name'];
+        $newImage = $_FILES['product_image']['name'];
+        $oldImage = $product['image'];
+
+        if ($newImage != "")
+        {
+            $imageName = time() . '_' . $newImage;
+            $uploadPath = "../images/products/" . $imageName;
+
+            move_uploaded_file($tmpName, $uploadPath);
+            unlink("../images/products/" . $oldImage);
             
+        } 
+        else
+        {  
+            $imageName = $oldImage;
+        }
+
+
+        $updateQuery = " UPDATE products 
+        SET name = '$name', price = '$price', description = '$description', category_id = '$category_id',
+        featured = '$featured', status = '$status', image = '$imageName'
+        WHERE id = $id ";
+
+        $updateResult = mysqli_query($conn,$updateQuery);
+
+        
 
 
 
-            if ($updateResult) {
+        if ($updateResult) {
 
-                $delete_sql = "DELETE FROM product_sizes WHERE product_id = '$id'";
-                mysqli_query($conn, $delete_sql);
+            $delete_sql = "DELETE FROM product_sizes WHERE product_id = '$id'";
+            mysqli_query($conn, $delete_sql);
 
-                // Inserting the sizes again cuz deleted it in the above line
-                foreach($_POST['sizes'] as $size => $stock) {
-                    if ($stock >0) {
+            // Inserting the sizes again cuz deleted it in the above line
+            foreach($_POST['sizes'] as $size => $stock) {
+                if ($stock >0) {
 
-                        $size = mysqli_real_escape_string($conn,$size);
-                        $stock = (int)$stock;
+                    $size = mysqli_real_escape_string($conn,$size);
+                    $stock = (int)$stock;
 
-                        $query = "INSERT INTO product_sizes (product_id, size, stock)
-                        VALUES ('$id', '$size', '$stock') ";
+                    $query = "INSERT INTO product_sizes (product_id, size, stock)
+                    VALUES ('$id', '$size', '$stock') ";
 
-                        mysqli_query($conn, $query);
-                    }
+                    mysqli_query($conn, $query);
                 }
             }
-            
-        
-            
-
-            if ($updateResult) {
-                   // echo "Product updated successfully!";
-                header("Location: products.php");
-                exit;
-            } else {
-                echo "Error: " . mysqli_error($conn);
-            }
         }
-
         
-    ?>
+    
+        
+
+        if ($updateResult) {
+            $_SESSION['success'] = "Product updated successfully";
+            header("Location: products.php");
+            exit;
+        } else {
+            $_SESSION['error'] = "Failed to update product";
+        }
+    }
+
+    
+?>
 
 
 

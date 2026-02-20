@@ -29,7 +29,13 @@ require_once __DIR__ . '/../includes/admin_only.php';
         SET name = '$name', status = '$status'
         WHERE id = $id ";
 
-        mysqli_query($conn,$updateQuery);
+        $result = mysqli_query($conn, $updateQuery);
+
+        if ($result) {
+            $_SESSION['success'] = "Category updated successfully";
+        } else {
+            $_SESSION['error'] = "Failed to update category";
+        }
 
         header("Location: categories.php");
         exit;

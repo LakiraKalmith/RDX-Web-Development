@@ -29,6 +29,8 @@ $countValue = (int)mysqli_num_rows($countRes);
     
     ?>  
 
+    
+
 <div class="main-content">
     <div class="page-header">
         <h1>Categories</h1>
@@ -90,7 +92,8 @@ $countValue = (int)mysqli_num_rows($countRes);
                             <i class="fa fa-edit"></i>
                         </a>
 
-                        <a href="delete-category.php?id=<?php echo $row['id']; ?>" class="icon-btn delete" onclick="return confirm ('Are your sure you want to delete category ')">
+                        <a href="#" class="icon-btn delete"
+                            onclick="confirmDelete('delete-category.php?id=<?= $row['id'] ?>', 'Are you sure you want to delete \'<?= $row['name'] ?>\'? This cannot be undone.')">
                             <i class="fa fa-trash"></i>
                         </a>
                         </td>

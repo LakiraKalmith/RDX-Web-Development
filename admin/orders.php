@@ -14,14 +14,20 @@ if (isset($_POST['change_status'])) {
 }
 
 // ── Handle delete ─────────────────────────────────
-if (isset($_POST['delete_order'])) {
-    $order_id = (int) $_POST['order_id'];
+if (isset($_GET['delete'])) {
+    $order_id = (int) $_GET['delete'];
     mysqli_query($conn, "DELETE FROM order_items WHERE order_id = '$order_id'");
-    mysqli_query($conn, "DELETE FROM orders WHERE id = '$order_id'");
+    $result = mysqli_query($conn, "DELETE FROM orders WHERE id = '$order_id'");
+
+    if ($result) {
+        $_SESSION['success'] = "Order deleted successfully";
+    } else {
+        $_SESSION['error'] = "Failed to delete order";
+    }
+
     header('Location: orders.php');
     exit;
 }
-
 // ── Get orders (with optional filter) ────────────
 $filter = $_GET['status'] ?? 'all';
 
@@ -108,12 +114,10 @@ $order_count = mysqli_num_rows($orders);
                                     </form>
 
                                     <!-- Delete -->
-                                    <form method="POST" onsubmit="return confirm('Delete order #RDX<?= $order['id'] ?>? This cannot be undone.')">
-                                        <input type="hidden" name="order_id" value="<?= $order['id'] ?>">
-                                        <button type="submit" name="delete_order" class="icon-btn delete">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
+                                    <a href="#" class="icon-btn delete"
+                                        onclick="confirmDelete('orders.php?delete=<?= $order['id'] ?>', 'Delete order #RDX<?= $order['id'] ?>? This cannot be undone.')">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
 
                                 </div>
                             </td>

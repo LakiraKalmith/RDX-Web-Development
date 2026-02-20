@@ -13,3 +13,21 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
 
 </head>
+
+<body>
+
+<?php if (isset($_SESSION['success']) || isset($_SESSION['error'])): ?>
+<?php $isSuccess = isset($_SESSION['success']); ?>
+<div class="toast <?= $isSuccess ? 'success' : 'error' ?>" id="toast">
+    <i class="fas fa-<?= $isSuccess ? 'check-circle' : 'times-circle' ?>"></i>
+    <?= $isSuccess ? $_SESSION['success'] : $_SESSION['error'] ?>
+</div>
+<?php unset($_SESSION['success']); unset($_SESSION['error']); ?>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const t = document.getElementById('toast');
+        setTimeout(() => t.classList.add('show'), 100);
+        setTimeout(() => t.classList.remove('show'), 3200);
+    });
+</script>
+<?php endif; ?>

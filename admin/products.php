@@ -127,8 +127,9 @@ $countValue = (int)mysqli_num_rows($countRes);
                                 <i class="fa fa-edit"></i>
                                 </a>
 
-                                <a href="delete-product.php?id=<?php echo $row['id']; ?>" class="icon-btn delete" onclick="return confirm ('Are you sure to delete this product')">
-                                <i class="fa fa-trash"></i>
+                                <a href="#" class="icon-btn delete"
+                                    onclick="confirmDelete('delete-product.php?id=<?= $row['id'] ?>', 'Are you sure you want to delete \'<?= $row['name'] ?>\'? This cannot be undone.')">
+                                    <i class="fa fa-trash"></i>
                                 </a>
                             </div>
                         </td>

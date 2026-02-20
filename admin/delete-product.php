@@ -29,6 +29,8 @@ if ($product) {
 
     $deleteQuery = "DELETE FROM products WHERE id = $id ";
     mysqli_query($conn, $deleteQuery);
+
+    $_SESSION['success'] = "Product deleted successfully";
 }
 else 
 {
