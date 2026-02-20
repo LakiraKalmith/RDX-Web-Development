@@ -372,6 +372,7 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 24px;
     margin-bottom: 36px;
+    user-select: none;
 }
 
 .stat-card {

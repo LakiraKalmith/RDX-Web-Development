@@ -7,6 +7,45 @@ $count = "SELECT * FROM users WHERE role = 'customer'";
 $countRes = $conn->query($count);
 $users = (int)mysqli_num_rows($countRes);
 
+$sql = "SELECT * FROM products";
+$res = $conn->query($sql);
+$total = (int)mysqli_num_rows($res);
+echo $total;
+
+// totla products
+
+$sqlTotal = "SELECT COUNT(*) as total FROM products WHERE status = 'active'";
+$result = $conn->query($sqlTotal);
+$total_products = $result->fetch_assoc();
+
+$products_this_month = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM products WHERE MONTH(created_at) = MONTH(NOW()) AND YEAR(created_at) = YEAR(NOW())"));
+$products_last_month = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM products WHERE MONTH(created_at) = MONTH(NOW() - INTERVAL 1 MONTH) AND YEAR(created_at) = YEAR(NOW() - INTERVAL 1 MONTH)"));
+$products_percent = $products_last_month['total'] > 0 ? round((($products_this_month['total'] - $products_last_month['total']) / $products_last_month['total']) * 100) : 0;
+
+//total orders
+$total_orders = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM orders"));
+$orders_this_month = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM orders WHERE MONTH(created_at) = MONTH(NOW()) AND YEAR(created_at) = YEAR(NOW())"));
+$orders_last_month = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM orders WHERE MONTH(created_at) = MONTH(NOW() - INTERVAL 1 MONTH) AND YEAR(created_at) = YEAR(NOW() - INTERVAL 1 MONTH)"));
+$orders_percent = $orders_last_month['total'] > 0 ? round((($orders_this_month['total'] - $orders_last_month['total']) / $orders_last_month['total']) * 100) : 0;
+
+// Revenue
+$revenue_this_month = mysqli_fetch_assoc(mysqli_query($conn, "SELECT SUM(total) as total FROM orders WHERE MONTH(created_at) = MONTH(NOW()) AND YEAR(created_at) = YEAR(NOW())"));
+$revenue_last_month = mysqli_fetch_assoc(mysqli_query($conn, "SELECT SUM(total) as total FROM orders WHERE MONTH(created_at) = MONTH(NOW() - INTERVAL 1 MONTH) AND YEAR(created_at) = YEAR(NOW() - INTERVAL 1 MONTH)"));
+$revenue_total = mysqli_fetch_assoc(mysqli_query($conn, "SELECT SUM(total) as total FROM orders"));
+$revenue_percent = $revenue_last_month['total'] > 0 ? round((($revenue_this_month['total'] - $revenue_last_month['total']) / $revenue_last_month['total']) * 100) : 0;
+
+// Total users
+$total_users = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM users WHERE role = 'customer'"));
+$users_this_month = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM users WHERE MONTH(created_at) = MONTH(NOW()) AND YEAR(created_at) = YEAR(NOW())"));
+$users_last_month = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM users WHERE MONTH(created_at) = MONTH(NOW() - INTERVAL 1 MONTH) AND YEAR(created_at) = YEAR(NOW() - INTERVAL 1 MONTH)"));
+$users_percent = $users_last_month['total'] > 0 ? round((($users_this_month['total'] - $users_last_month['total']) / $users_last_month['total']) * 100) : 0;
+
+function formatK($num) {
+    if ($num >= 1000) {
+        return round($num / 1000, 1) . 'K';
+    }
+    return $num;
+}
 ?>
 
 <body>
@@ -22,57 +61,49 @@ $users = (int)mysqli_num_rows($countRes);
 
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-icon blue">
-                        <i class="fas fa-box"></i>
-                    </div>
+                    <div class="stat-icon blue"><i class="fas fa-box"></i></div>
                     <div class="stat-content">
                         <div class="stat-label">Total Products</div>
-                        <div class="stat-value">24</div>
-                        <div class="stat-change positive">
-                            <i class="fas fa-arrow-up"></i>
-                            12% from last month
+                        <div class="stat-value"><?= $total_products['total'] ?></div>
+                        <div class="stat-change <?= $products_percent >= 0 ? 'positive' : 'negative' ?>">
+                            <i class="fas fa-arrow-<?= $products_percent >= 0 ? 'up' : 'down' ?>"></i>
+                            <?= abs($products_percent) ?>% from last month
                         </div>
                     </div>
                 </div>
 
-            <div class="stat-card">
-                    <div class="stat-icon green">
-                        <i class="fas fa-shopping-cart"></i>
-                    </div>
+                <div class="stat-card">
+                    <div class="stat-icon green"><i class="fas fa-shopping-cart"></i></div>
                     <div class="stat-content">
                         <div class="stat-label">Orders</div>
-                        <div class="stat-value">48</div>
-                        <div class="stat-change positive">
-                            <i class="fas fa-arrow-up"></i>
-                            8% from last week
+                        <div class="stat-value"><?= $total_orders['total'] ?></div>
+                        <div class="stat-change <?= $orders_percent >= 0 ? 'positive' : 'negative' ?>">
+                            <i class="fas fa-arrow-<?= $orders_percent >= 0 ? 'up' : 'down' ?>"></i>
+                            <?= abs($orders_percent) ?>% from last month
                         </div>
                     </div>
                 </div>
 
                 <div class="stat-card">
-                    <div class="stat-icon orange">
-                        <i class="fas fa-dollar-sign"></i>
-                    </div>
+                    <div class="stat-icon orange"><i class="fas fa-dollar-sign"></i></div>
                     <div class="stat-content">
                         <div class="stat-label">Revenue</div>
-                        <div class="stat-value">$12.5K</div>
-                        <div class="stat-change positive">
-                            <i class="fas fa-arrow-up"></i>
-                            23% from last month
+                        <div class="stat-value">$<?= formatK($revenue_total['total']) ?></div>
+                        <div class="stat-change <?= $revenue_percent >= 0 ? 'positive' : 'negative' ?>">
+                            <i class="fas fa-arrow-<?= $revenue_percent >= 0 ? 'up' : 'down' ?>"></i>
+                            <?= abs($revenue_percent) ?>% from last month
                         </div>
                     </div>
                 </div>
 
                 <div class="stat-card">
-                    <div class="stat-icon red">
-                        <i class="fas fa-users"></i>
-                    </div>
+                    <div class="stat-icon red"><i class="fas fa-users"></i></div>
                     <div class="stat-content">
-                        <div class="stat-label">Active Users</div>
-                        <div class="stat-value"><?= $users; ?></div>
-                        <div class="stat-change positive">
-                            <i class="fas fa-arrow-up"></i>
-                            5% from yesterday
+                        <div class="stat-label">Total Users</div>
+                        <div class="stat-value"><?= $total_users['total'] ?></div>
+                        <div class="stat-change <?= $users_percent >= 0 ? 'positive' : 'negative' ?>">
+                            <i class="fas fa-arrow-<?= $users_percent >= 0 ? 'up' : 'down' ?>"></i>
+                            <?= abs($users_percent) ?>% from last month
                         </div>
                     </div>
                 </div>

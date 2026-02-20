@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['logged_in'] = true;
             
             // Redirect based on user type
-            if ($user['user_type'] == 'admin') {
+            if ($user['role'] == 'admin') {
                 header("Location: admin/dashboard.php");
             } else {
                 header("Location: shop.php");
