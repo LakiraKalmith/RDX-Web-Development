@@ -4,6 +4,10 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 $count = "SELECT * FROM products";
 $countRes = $conn->query($count);
 $countValue = (int)mysqli_num_rows($countRes);
+
+$countOrders = "SELECT * FROM orders WHERE status = 'processing' ";
+$orderRes = $conn->query($countOrders);
+$countValueOrder = (int)mysqli_num_rows($orderRes);
 ?>
 ?>
  <aside class="sidebar" id="sidebar">
@@ -51,10 +55,10 @@ $countValue = (int)mysqli_num_rows($countRes);
                 <div class="nav-section-title">Sales</div>
                 <ul>
                     <li>
-                        <a href="orders.php" class="<?= ($currentPage == 'orders.php') ? 'active' : '' ;?>">
+                        <a href="orders.php?status=processing" class="<?= ($currentPage == 'orders.php') ? 'active' : '' ;?>">
                             <i class="fas fa-shopping-cart"></i>
                             <span>Orders</span>
-                            <span class="nav-badge">8</span>
+                            <span class="nav-badge"><?= $countValueOrder ?></span>
                         </a>
                     </li>
                 </ul>
