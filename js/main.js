@@ -1,114 +1,95 @@
-// const loader = document.querySelector('.loader');
+// Loader
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        const loader = document.querySelector('.loader');
+        if (loader) loader.classList.add('hidden');
+    }, 1000);
+});
 
-// window.addEventListener('load', () =>{
-//     loader.classList.add('hidden');
-// })
-
-
-
- window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.querySelector('.loader').classList.add('hidden');
-            }, 1000);
-        });
-
-// login
+// Login modal
 const loginModal = document.querySelector('.login');
-        const formsContainer = document.querySelector('.forms-container');
-        const showSignup = document.querySelector('.show-signup');
-        const showSignin = document.querySelector('.show-signin');
+const formsContainer = document.querySelector('.forms-container');
+const showSignup = document.querySelector('.show-signup');
+const showSignin = document.querySelector('.show-signin');
 
-        function openLogin() {
-            loginModal.style.display = 'flex';
-            document.body.classList.add('modal-open');
-            setTimeout(() => {
-                loginModal.classList.add('active');
-            }, 10);
-        }
+function openLogin() {
+    if (!loginModal) return;
+    loginModal.style.display = 'flex';
+    document.body.classList.add('modal-open');
+    setTimeout(() => loginModal.classList.add('active'), 10);
+}
 
-        function closeLogin() {
-            loginModal.classList.add('closing');
-            setTimeout(() => {
-                loginModal.style.display = 'none';
-                loginModal.classList.remove('active', 'closing');
-                document.body.classList.remove('modal-open');
-                formsContainer.classList.remove('active');
-            }, 400);
-        }
+function closeLogin() {
+    if (!loginModal) return;
+    loginModal.classList.add('closing');
+    setTimeout(() => {
+        loginModal.style.display = 'none';
+        loginModal.classList.remove('active', 'closing');
+        document.body.classList.remove('modal-open');
+        if (formsContainer) formsContainer.classList.remove('active');
+    }, 400);
+}
 
-        showSignup.addEventListener('click', () => {
-            formsContainer.classList.add('active');
-        });
+if (showSignup) {
+    showSignup.addEventListener('click', () => {
+        if (formsContainer) formsContainer.classList.add('active');
+    });
+}
 
-        showSignin.addEventListener('click', () => {
-            formsContainer.classList.remove('active');
-        });
+if (showSignin) {
+    showSignin.addEventListener('click', () => {
+        if (formsContainer) formsContainer.classList.remove('active');
+    });
+}
 
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && loginModal.classList.contains('active')) {
-                closeLogin();
-            }
-        });
+window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && loginModal && loginModal.classList.contains('active')) {
+        closeLogin();
+    }
+});
 
-// pass hide and show
-
+// Password show/hide
 document.querySelectorAll(".password-toggle").forEach(toggle => {
     toggle.addEventListener("click", () => {
         const input = toggle.parentElement.querySelector(".password");
         const icon = toggle.querySelector("i");
-
-        const type = input.type === "password" ? "text" : "password";
-        input.type = type;
-
+        if (!input) return;
+        input.type = input.type === "password" ? "text" : "password";
         icon.classList.toggle("fa-eye-slash");
     });
 });
 
-// Parallax effect on hero
+// Parallax effect on hero (only on pages that have it)
 const heroBg = document.querySelector('.hero-bg');
+if (heroBg) {
+    window.addEventListener('mousemove', function(e) {
+        const x = (e.clientX / window.innerWidth - 0.5) * 20;
+        const y = (e.clientY / window.innerHeight - 0.5) * 20;
+        heroBg.style.transform = `translate(${x}px, ${y}px) scale(1.1)`;
+    });
+}
 
-window.addEventListener('mousemove', function(e) {
-    const x = (e.clientX / window.innerWidth - 0.5) * 20;
-    const y = (e.clientY / window.innerHeight - 0.5) * 20;
-    heroBg.style.transform = `translate(${x}px, ${y}px) scale(1.1)`;
-});
-
-// FAQ open row thing
-
-let allQuestions = document.querySelectorAll('.faq-question');
-
-allQuestions.forEach(function(question) {  
-    question.addEventListener('click', function() { 
-
-        let faqBox = this.parentElement;
-        let isOpen = faqBox.classList.contains('active');
-        let allFAQs = document.querySelectorAll('.faq-item'); 
-
-        allFAQs.forEach(function(faq) {
-            faq.classList.remove('active');
-        });
-
-        if (!isOpen) {
-            faqBox.classList.add('active');
-        }
+// FAQ accordion
+document.querySelectorAll('.faq-question').forEach(function(question) {
+    question.addEventListener('click', function() {
+        const faqBox = this.parentElement;
+        const isOpen = faqBox.classList.contains('active');
+        document.querySelectorAll('.faq-item').forEach(faq => faq.classList.remove('active'));
+        if (!isOpen) faqBox.classList.add('active');
     });
 });
 
-// toast for succes msgs and errors
-
+// Alert toasts
 document.addEventListener('DOMContentLoaded', function() {
-    const alerts = document.querySelectorAll('.alert');
-    
-    alerts.forEach(alert => {
+    document.querySelectorAll('.alert').forEach(alert => {
         setTimeout(() => {
             alert.classList.add('fade-out');
-            setTimeout(() => {
-                alert.remove();
-            }, 300); 
-        }, 3000); 
+            setTimeout(() => alert.remove(), 300);
+        }, 3000);
     });
 });
 
+// Scroll animations
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
         if (e.isIntersecting) e.target.classList.add('visible');
@@ -119,14 +100,20 @@ document.querySelectorAll('.pro, .product1 h4, .page-header h4').forEach(el => {
     observer.observe(el);
 });
 
-// delete modal for customer page
+// Delete address modal
 function confirmDelete(url) {
-    document.getElementById('deleteConfirmBtn').href = url;
-    document.getElementById('deleteModal').style.display = 'flex';
+    const btn = document.getElementById('deleteConfirmBtn');
+    const modal = document.getElementById('deleteModal');
+    if (!btn || !modal) return;
+    btn.href = url;
+    modal.style.display = 'flex';
 }
+
 function closeDeleteModal() {
-    document.getElementById('deleteModal').style.display = 'none';
+    const modal = document.getElementById('deleteModal');
+    if (modal) modal.style.display = 'none';
 }
+
 document.addEventListener('DOMContentLoaded', function() {
     const deleteModal = document.getElementById('deleteModal');
     if (deleteModal) {
@@ -135,4 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDeleteModal(); });
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeDeleteModal();
+});

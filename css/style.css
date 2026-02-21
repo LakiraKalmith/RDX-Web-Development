@@ -106,8 +106,8 @@ select:-webkit-autofill {
     ============================================= */
     --footer-bg:            #000000;
     --footer-heading:       #fff;
-    --footer-text:          #222;
-    --footer-link:          #222;
+    --footer-text:          #444444;
+    --footer-link:          #444444;
     --footer-icon:          #757370;
     --footer-hover:         #d18916;
     --footer-border:        #d18916;

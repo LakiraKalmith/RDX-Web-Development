@@ -271,20 +271,20 @@ if (empty($cart_rows)) {
                     <div class="form-row">
                         <div class="form-group">
                             <label>First Name</label>
-                            <input type="text" name="first_name" placeholder="John" required>
+                            <input type="text" name="first_name" placeholder="John">
                         </div>
                         <div class="form-group">
                             <label>Last Name</label>
-                            <input type="text" name="last_name" placeholder="Doe" required>
+                            <input type="text" name="last_name" placeholder="Doe">
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Phone</label>
-                        <input type="tel" name="phone" placeholder="+1 555 000 0000" required>
+                        <input type="tel" name="phone" placeholder="+1 555 000 0000">
                     </div>
                     <div class="form-group">
                         <label>Address Line 1</label>
-                        <input type="text" name="address_line1" placeholder="123 Main St" required>
+                        <input type="text" name="address_line1" placeholder="123 Main St">
                     </div>
                     <div class="form-group">
                         <label>Address Line 2 (optional)</label>
@@ -293,21 +293,21 @@ if (empty($cart_rows)) {
                     <div class="form-row">
                         <div class="form-group">
                             <label>City</label>
-                            <input type="text" name="city" placeholder="New York" required>
+                            <input type="text" name="city" placeholder="New York">
                         </div>
                         <div class="form-group">
                             <label>State</label>
-                            <input type="text" name="state" placeholder="NY" required>
+                            <input type="text" name="state" placeholder="NY">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
                             <label>ZIP Code</label>
-                            <input type="text" name="zip_code" placeholder="10001" required>
+                            <input type="text" name="zip_code" placeholder="10001">
                         </div>
                         <div class="form-group">
                             <label>Country</label>
-                            <select name="country" required>
+                            <select name="country">
                                 <option>United States</option>
                                 <option>Canada</option>
                                 <option>United Kingdom</option>
@@ -383,6 +383,25 @@ function toggleNewAddress() {
         document.getElementById('addressMode').value = 'saved';
     }
 }
+
+// Validate new address fields manually before submit
+document.querySelector('form').addEventListener('submit', function(e) {
+    const mode = document.getElementById('addressMode').value;
+    if (mode !== 'new') return; // saved address, no validation needed
+
+    const required = ['first_name', 'last_name', 'phone', 'address_line1', 'city', 'state', 'zip_code'];
+    for (const name of required) {
+        const input = document.querySelector(`[name="${name}"]`);
+        if (!input || !input.value.trim()) {
+            e.preventDefault();
+            input.style.borderColor = '#e74c3c';
+            input.focus();
+            input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+        }
+        input.style.borderColor = '';
+    }
+});
 </script>
 
 <?php include __DIR__ . '/includes/footer-scripts.php'; ?>
