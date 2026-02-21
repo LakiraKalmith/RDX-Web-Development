@@ -96,4 +96,57 @@
 }
 }
 
+/* ── Product Cards — Premium ── */
+.pro {
+    opacity: 0;
+    transform: translateY(50px);
+    transition:
+        opacity 1s ease,
+        transform 1s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.5s ease,
+        box-shadow 0.6s ease;
+}
 
+.pro.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Slower stagger — feels more deliberate */
+.pro:nth-child(1) { transition-delay: 0s; }
+.pro:nth-child(2) { transition-delay: 0.15s; }
+.pro:nth-child(3) { transition-delay: 0.3s; }
+.pro:nth-child(4) { transition-delay: 0.45s; }
+
+/* Hover — subtle lift with gold glow */
+.pro:hover {
+    transform: translateY(-8px) !important;
+    border-color: var(--primary) !important;
+    box-shadow:
+        0 30px 60px rgba(0,0,0,0.4),
+        0 0 40px rgba(197,171,128,0.06);
+}
+
+/* Image — slow luxury zoom */
+.pro img {
+    transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pro:hover img {
+    transform: scale(1.05);
+}
+
+.product1 h4,
+.page-header h4,
+.section-title {
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.product1 h4.visible,
+.page-header h4.visible,
+.section-title.visible {
+    opacity: 1;
+    transform: translateX(0);
+}

@@ -271,10 +271,10 @@ include __DIR__ . '/includes/header.php';
                         
                             <a class="btn-link" href="/RDX/edit-address.php?id=<?= $row['id']; ?>">Edit</a>
 
-                        <form method="post" action="">
-                            <input  type='hidden'  value="<?= $row['id'] ;?>" name="delete_address_id">
-                            <button type=submit class="btn-link delete" name="deleteAdd" onclick="return confirm ('Are u sure u want to delete');">Delete</button>
-                        </form>    
+                            <a href="#" onclick="confirmDelete('/RDX/includes/delete_address.php?delete=<?= $row['id'] ?>')" 
+                                style="color:#c0392b; font-size:12px; cursor:pointer; text-decoration:none;">
+                                <i class="fas fa-trash"></i> Delete
+                            </a>
                     </div>
                 </div>
                 <?php } ?>

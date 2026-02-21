@@ -35,7 +35,9 @@ $result = $conn->query($sql);
         <div class="pro-container">
             <?php while ($row = mysqli_fetch_assoc($result)) {?>
             <div class="pro">
-                <img src="/RDX/images/products/<?= $row['image']; ?>">
+                <div class="pro-img-wrap">
+                    <img src="/RDX/images/products/<?= $row['image']; ?>">
+                </div>
                 <div class="des">
                     <h5><?= $row['name']; ?></h5>
                     <h4>$<?= $row['price']; ?></h4>

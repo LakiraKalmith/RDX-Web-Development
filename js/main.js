@@ -108,3 +108,31 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 3000); 
     });
 });
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('visible');
+    });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.pro, .product1 h4, .page-header h4').forEach(el => {
+    observer.observe(el);
+});
+
+// delete modal for customer page
+function confirmDelete(url) {
+    document.getElementById('deleteConfirmBtn').href = url;
+    document.getElementById('deleteModal').style.display = 'flex';
+}
+function closeDeleteModal() {
+    document.getElementById('deleteModal').style.display = 'none';
+}
+document.addEventListener('DOMContentLoaded', function() {
+    const deleteModal = document.getElementById('deleteModal');
+    if (deleteModal) {
+        deleteModal.addEventListener('click', function(e) {
+            if (e.target === this) closeDeleteModal();
+        });
+    }
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDeleteModal(); });

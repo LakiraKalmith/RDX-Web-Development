@@ -1,13 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
-/*  color #c5ab80 
-    color #131313
-*/
-
-/* * {
-    outline: 1px solid red !important;
-} */
-
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -15,7 +7,7 @@ textarea:-webkit-autofill,
 select:-webkit-autofill {
   -webkit-box-shadow: 0 0 0px 1000px transparent inset;
   -webkit-text-stroke-color: #ffffff;
-  -webkit-text-fill-color: #ffffff; /* change text color if needed */
+  -webkit-text-fill-color: #ffffff; 
   transition: background-color 5000s ease-in-out 0s; 
 }
 
@@ -35,7 +27,7 @@ select:-webkit-autofill {
     /* =============================================
        BACKGROUNDS
     ============================================= */
-    --bg-page:              #131313;   /* main page background */
+    --bg-page:              #000000;   /* main page background */
     --bg-black:             #000000;   /* pure black (loader, header, footer, newsletter) */
     --bg-dark:              #0a0a0a;   /* very dark (account section, submit btn text) */
     --bg-dark-2:            #0f0f0f;   /* slightly lighter dark (form inputs) */
@@ -226,7 +218,7 @@ select:-webkit-autofill {
     --contact-hero-border:  #2a2a2a;
     --contact-heading:      #d1b78d;
     --contact-p:            #999;
-    --contact-form-bg:      #1a1a1a;
+    --contact-form-bg:      #020202;
     --contact-form-border:  #2a2a2a;
     --contact-label:        #c5ab80;
     --contact-input-bg:     #0f0f0f;
@@ -240,7 +232,7 @@ select:-webkit-autofill {
     /* =============================================
        FAQ
     ============================================= */
-    --faq-bg:               #131313;
+    --faq-bg:               #020202;
     --faq-border-top:       #2a2a2a;
     --faq-heading:          #d1b78d;
     --faq-p:                #999;
@@ -449,6 +441,7 @@ button.normal {
     position: sticky;
     top: 0;
     left: 0;
+    /* border-bottom: 1px solid var(--primary-glow); */
  
 
 }
@@ -633,6 +626,17 @@ button.normal {
 .product1 .pro img {
     width: 100%;
     border-radius: 20px;
+    
+}
+.pro img {
+    width: 100%;
+    display: block;
+    overflow: hidden; /* add this */
+    transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pro:hover img {
+    transform: scale(1.05);
 }
 
 .product1 .pro .des {
@@ -654,13 +658,42 @@ button.normal {
     font-size: 20px;
 }
 
+.pro {
+    display: flex;
+    flex-direction: column;
+}
+
+.des {
+    flex: 1; /* this pushes the button down no matter how long the name is */
+}
+
+.pro-img-wrap {
+    overflow: hidden;
+    width: 100%;
+    border-radius: 20px;
+    height: 370px;
+}
+
+.pro-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* crops and fills without stretching */
+    display: block;
+    transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    padding-bottom: 10px;
+}
+
+.pro:hover .pro-img-wrap img {
+    transform: scale(1.05);
+}
+
  .add-to-cart {
 
     width: 90%;
     height: 40px;
-    background-color: var(--cart-btn-bg);
+    background: transparent;
     color: var(--primary);
-    border: 1px solid var(--cart-btn-border);
+    border: 1px solid var(--primary);
     padding: 0px 0px;
     font-size: 20px;
     cursor: pointer;
@@ -668,8 +701,8 @@ button.normal {
 }
 
 .add-to-cart:hover {
-    background:    var(--cart-btn-hover-bg);
-    color: var(--text-white);
+    background: var(--primary);
+    color: #000;
     border-color: var(--text-white);
     translate: 0 -5px;
     transform: scale(1.05);
@@ -2917,4 +2950,100 @@ body.cart-open {
 
 body.modal-opem {
     overflow: hidden;
+}
+
+/* delete modal customer page */
+.customer-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+
+.customer-modal-box {
+    background: #161616;
+    border: 1px solid #2a2a2a;
+    padding: 48px 40px;
+    width: 420px;
+    max-width: 90vw;
+    text-align: center;
+}
+
+.customer-modal-icon {
+    width: 60px;
+    height: 60px;
+    border: 1px solid #c0392b;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+}
+
+.customer-modal-icon i {
+    font-size: 20px;
+    color: #c0392b;
+}
+
+.customer-modal-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: #d1b78d;
+    margin-bottom: 12px;
+    letter-spacing: 2px;
+}
+
+.customer-modal-message {
+    color: #888;
+    font-size: 13px;
+    margin-bottom: 40px;
+    line-height: 1.7;
+}
+
+.customer-modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.customer-modal-cancel {
+    padding: 12px 32px;
+    background: transparent;
+    border: 1px solid #2a2a2a;
+    color: #888;
+    font-family: 'Poppins', sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.customer-modal-cancel:hover {
+    border-color: #c5ab80;
+    color: #c5ab80;
+}
+
+.customer-modal-confirm {
+    padding: 12px 32px;
+    background: transparent;
+    border: 1px solid #c0392b;
+    color: #c0392b;
+    font-family: 'Poppins', sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s ease;
+}
+
+.customer-modal-confirm:hover {
+    background: rgba(192, 57, 43, 0.1);
 }
