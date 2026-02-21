@@ -398,12 +398,15 @@ select:-webkit-autofill  {
 }
 
 .newsletter button {
-    
+    height: 3.125rem;
+    padding: 0 30px;
     background-color: #d1b78d;
     color: #000;
     white-space: nowrap;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+    font-size: 14px;
+    flex-shrink: 0;
     transition: 0.3s ease;
 }
 
